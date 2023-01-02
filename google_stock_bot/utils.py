@@ -1,7 +1,11 @@
+import os
+
+
 def get_secrets():
     # Load the secrets from a file
     secrets = {}
-    with open("secrets.txt", "r") as f:
+    file_path = os.path.join(os.path.dirname(__file__), 'secrets.txt')
+    with open(file_path, "r") as f:
         for line in f:
             key, value = line.strip().split(":", 1)
             secrets[key] = value
@@ -25,6 +29,7 @@ def get_user_chat_id(bot_token):
     # print the chat id of the first update
     chat_id = updates[-1].message.chat.id
     return chat_id
+
 
 def clean_ticker(ticker):
     ticker = ticker.strip('$')
