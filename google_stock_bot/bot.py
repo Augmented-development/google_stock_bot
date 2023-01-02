@@ -1,17 +1,18 @@
-import yfinance as yf
-import schedule
-import time
-import telegram
 import logging
+import time
 
+import schedule
+import telegram
+import yfinance as yf
 from telegram.ext import Updater, CommandHandler
 
-from google_stock_bot.utils import get_secrets, clean_ticker
+from utils import get_secrets, clean_ticker
 
 # set up logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
+
 
 def get_stock_price(ticker):
     ticker_data = yf.Ticker(ticker)
