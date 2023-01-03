@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 
 import schedule
@@ -27,6 +28,9 @@ CHAT_ID = secrets['chat_id']  # Petr Lavrov
 TICKER = "GOOG"
 # JOB_TIME = "23:28"
 JOB_TIME = "18:30"
+
+TOUCH_FILE_PATH = os.path.expanduser('~/heartbeat/stock_price_bot_last_alive')
+os.makedirs(os.path.dirname(TOUCH_FILE_PATH), exist_ok=True)
 
 
 class StockPriceBot:
@@ -90,9 +94,17 @@ def main():
     b.schedule_job(job_time=JOB_TIME, ticker=TICKER)
     b.updater.start_polling()
 
+    count = 0
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+        # heartbeat
+        count += 1
+        if count % 60 == 0:
+            # touch the touch file
+            with open(TOUCH_FILE_PATH, 'w'):
+                pass
 
 
 if __name__ == '__main__':
